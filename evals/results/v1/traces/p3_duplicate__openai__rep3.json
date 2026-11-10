@@ -1,0 +1,25 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- Call post_invoice only when the clerk asks you to post or pay specific invoices. A question such as \"can we pay X?\" or \"is X ready?\" is not a request to post: answer it, and offer to post.\n- When the clerk does ask, call post_invoice with the invoice id (e.g. invoice-01) straight away. The program checks the vendor and the ledger and asks the clerk to approve, so don't ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "post invoice-05"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-05\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"refused\", \"posted\": false, \"reason\": \"invoice BL-88190 from V-002 is already in the ledger as JE-000001; not posting it again\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "Not posted. Reason: invoice BL-88190 from V-002 is already in the ledger as JE-000001; duplicate posting refused.",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+]

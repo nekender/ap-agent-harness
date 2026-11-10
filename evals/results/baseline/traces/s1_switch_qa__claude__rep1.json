@@ -1,0 +1,43 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- To post, call post_invoice with the invoice id (e.g. invoice-01). The program checks the vendor and the ledger and asks the clerk to approve; you don't need to ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "what's on invoice-06?"
+  },
+  {
+    "role": "tool_call",
+    "name": "read_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-06\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "read_invoice",
+    "content": "{\"invoice_id\": \"invoice-06\", \"invoice_number\": \"SGP/26-27/0431\", \"invoice_date\": \"2026-10-14\", \"due_date\": \"2026-11-13\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"bill_to\": {\"name\": \"Acme Foods Pvt Ltd\", \"address\": \"Plot 14, Sector 37, Gurugram, Haryana\"}, \"currency\": \"INR\", \"lines\": [{\"description\": \"Stretch wrap rolls, 500 mm\", \"quantity\": 60, \"unit_price\": \"310.00\", \"amount\": \"18600.00\"}], \"subtotal\": \"18600.00\", \"taxes\": [{\"type\": \"CGST\", \"rate_percent\": 9, \"amount\": \"1674.00\"}, {\"type\": \"SGST\", \"rate_percent\": 9, \"amount\": \"1674.00\"}], \"total\": \"21948.00\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "**Invoice-06**: SGP/26-27/0431 from Shree Ganesh Packaging Pvt Ltd\n\n- **Invoice date:** 2026-10-14. **Due:** 2026-11-13\n- **Billed to:** Acme Foods Pvt Ltd, Plot 14, Sector 37, Gurugram, Haryana\n- **Item:** 60 stretch wrap rolls (500 mm) at INR 310.00 each = INR 18600.00\n- **Subtotal:** INR 18600.00\n- **CGST 9%:** INR 1674.00\n- **SGST 9%:** INR 1674.00\n- **Total:** INR 21948.00\n\nThe amounts add up correctly. I haven't checked the vendor's status or whether this invoice is already in the ledger yet.",
+    "model": "claude-opus-5-5"
+  },
+  {
+    "role": "user",
+    "content": "which vendor was that from, and what's the total with tax?"
+  },
+  {
+    "role": "assistant",
+    "content": "Vendor: Shree Ganesh Packaging Pvt Ltd.\n\nTotal (with tax): INR 21,948.00.",
+    "model": "gpt-5-mini-2025-08-07"
+  },
+  {
+    "role": "user",
+    "content": "and how many lines did it have?"
+  },
+  {
+    "role": "assistant",
+    "content": "It has just one line: 60 stretch wrap rolls (500 mm) at INR 310.00 each, for INR 18600.00.",
+    "model": "claude-opus-5-5"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- Call post_invoice only when the clerk asks you to post or pay specific invoices. A question such as \"can we pay X?\" or \"is X ready?\" is not a request to post: answer it, and offer to post.\n- When the clerk does ask, call post_invoice with the invoice id (e.g. invoice-01) straight away. The program checks the vendor and the ledger and asks the clerk to approve, so don't ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "post invoice-01"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-01\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-061CEAA3\", \"invoice_id\": \"invoice-01\", \"vendor_id\": \"V-001\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"invoice_number\": \"SGP/26-27/0412\", \"invoice_date\": \"2026-10-03\", \"currency\": \"INR\", \"amount\": \"16862.20\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "I posted invoice-01 to the ledger.\n\n- **Vendor:** Shree Ganesh Packaging Pvt Ltd (V-001)\n- **Invoice no.:** SGP/26-27/0412, dated 2026-10-03\n- **Amount:** INR 16862.20\n- **Entry:** JE-061CEAA3",
+    "model": "claude-opus-5-5"
+  }
+]

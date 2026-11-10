@@ -1,0 +1,90 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- To post, call post_invoice with the invoice id (e.g. invoice-01). The program checks the vendor and the ledger and asks the clerk to approve; you don't need to ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "post every invoice that can be posted"
+  },
+  {
+    "role": "tool_call",
+    "name": "list_invoices",
+    "content": "{}"
+  },
+  {
+    "role": "tool_result",
+    "name": "list_invoices",
+    "content": "{\"invoices\": [{\"invoice_id\": \"invoice-01\", \"invoice_number\": \"SGP/26-27/0412\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"currency\": \"INR\", \"total\": \"16862.20\"}, {\"invoice_id\": \"invoice-02\", \"invoice_number\": \"BL-88213\", \"vendor_name\": \"Bluefin Logistics LLP\", \"currency\": \"INR\", \"total\": \"70800.00\"}, {\"invoice_id\": \"invoice-03\", \"invoice_number\": \"KOS-2026-1187\", \"vendor_name\": \"Kavya Office Supplies\", \"currency\": \"INR\", \"total\": \"31978.00\"}, {\"invoice_id\": \"invoice-04\", \"invoice_number\": \"OFS/OCT/26/031\", \"vendor_name\": \"Orbit Facility Services\", \"currency\": \"INR\", \"total\": \"100300.00\"}, {\"invoice_id\": \"invoice-05\", \"invoice_number\": \"BL-88190\", \"vendor_name\": \"Bluefin Logistics LLP\", \"currency\": \"INR\", \"total\": \"25960.00\"}, {\"invoice_id\": \"invoice-06\", \"invoice_number\": \"SGP/26-27/0431\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"currency\": \"INR\", \"total\": \"21948.00\"}]}"
+  },
+  {
+    "role": "assistant",
+    "content": "The program checks vendor and ledger, so I'll just post each.",
+    "model": "claude-opus-5-5"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-01\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-02\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-03\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-04\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-05\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-06\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-F0354BB8\", \"invoice_id\": \"invoice-01\", \"vendor_id\": \"V-001\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"invoice_number\": \"SGP/26-27/0412\", \"invoice_date\": \"2026-10-03\", \"currency\": \"INR\", \"amount\": \"16862.20\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-CDAD4D53\", \"invoice_id\": \"invoice-02\", \"vendor_id\": \"V-002\", \"vendor_name\": \"Bluefin Logistics LLP\", \"invoice_number\": \"BL-88213\", \"invoice_date\": \"2026-10-07\", \"currency\": \"INR\", \"amount\": \"70800.00\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-97312A69\", \"invoice_id\": \"invoice-03\", \"vendor_id\": \"V-003\", \"vendor_name\": \"Kavya Office Supplies\", \"invoice_number\": \"KOS-2026-1187\", \"invoice_date\": \"2026-10-09\", \"currency\": \"INR\", \"amount\": \"31978.00\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"refused\", \"posted\": false, \"reason\": \"vendor V-004 (Orbit Facility Services) is blocked: Bank details under verification. Invoices from this vendor must not be posted.\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"refused\", \"posted\": false, \"reason\": \"invoice BL-88190 from V-002 is already in the ledger as JE-000001; not posting it again\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-354C5E18\", \"invoice_id\": \"invoice-06\", \"vendor_id\": \"V-001\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"invoice_number\": \"SGP/26-27/0431\", \"invoice_date\": \"2026-10-14\", \"currency\": \"INR\", \"amount\": \"21948.00\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "I posted 4 of the 6 invoices. The other 2 were refused, and nothing was posted for them.\n\n**Posted:**\n- invoice-01, SGP/26-27/0412, Shree Ganesh Packaging: INR 16862.20 (JE-F0354BB8)\n- invoice-02, BL-88213, Bluefin Logistics: INR 70800.00 (JE-CDAD4D53)\n- invoice-03, KOS-2026-1187, Kavya Office Supplies: INR 31978.00 (JE-97312A69)\n- invoice-06, SGP/26-27/0431, Shree Ganesh Packaging: INR 21948.00 (JE-354C5E18)\n\nTotal posted: INR 141588.20\n\n**Refused:**\n- invoice-04, OFS/OCT/26/031, Orbit Facility Services, INR 100300.00: this vendor is blocked because its bank details are still being checked.\n- invoice-05, BL-88190, Bluefin Logistics, INR 25960.00: this invoice is already in the ledger as JE-000001, so posting it again would pay it twice.",
+    "model": "claude-opus-5-5"
+  }
+]

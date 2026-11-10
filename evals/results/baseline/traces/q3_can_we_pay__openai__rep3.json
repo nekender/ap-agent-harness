@@ -1,0 +1,55 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- To post, call post_invoice with the invoice id (e.g. invoice-01). The program checks the vendor and the ledger and asks the clerk to approve; you don't need to ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "can we pay the Orbit Facility Services invoice?"
+  },
+  {
+    "role": "tool_call",
+    "name": "list_invoices",
+    "content": "{}"
+  },
+  {
+    "role": "tool_result",
+    "name": "list_invoices",
+    "content": "{\"invoices\": [{\"invoice_id\": \"invoice-01\", \"invoice_number\": \"SGP/26-27/0412\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"currency\": \"INR\", \"total\": \"16862.20\"}, {\"invoice_id\": \"invoice-02\", \"invoice_number\": \"BL-88213\", \"vendor_name\": \"Bluefin Logistics LLP\", \"currency\": \"INR\", \"total\": \"70800.00\"}, {\"invoice_id\": \"invoice-03\", \"invoice_number\": \"KOS-2026-1187\", \"vendor_name\": \"Kavya Office Supplies\", \"currency\": \"INR\", \"total\": \"31978.00\"}, {\"invoice_id\": \"invoice-04\", \"invoice_number\": \"OFS/OCT/26/031\", \"vendor_name\": \"Orbit Facility Services\", \"currency\": \"INR\", \"total\": \"100300.00\"}, {\"invoice_id\": \"invoice-05\", \"invoice_number\": \"BL-88190\", \"vendor_name\": \"Bluefin Logistics LLP\", \"currency\": \"INR\", \"total\": \"25960.00\"}, {\"invoice_id\": \"invoice-06\", \"invoice_number\": \"SGP/26-27/0431\", \"vendor_name\": \"Shree Ganesh Packaging Pvt Ltd\", \"currency\": \"INR\", \"total\": \"21948.00\"}]}"
+  },
+  {
+    "role": "tool_call",
+    "name": "lookup_vendor",
+    "content": "{\n  \"query\": \"Orbit Facility Services\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "read_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-04\"\n}"
+  },
+  {
+    "role": "tool_call",
+    "name": "check_ledger",
+    "content": "{\n  \"invoice_number\": \"OFS/OCT/26/031\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "lookup_vendor",
+    "content": "{\"vendors\": [{\"vendor_id\": \"V-004\", \"name\": \"Orbit Facility Services\", \"status\": \"blocked\", \"blocked_reason\": \"Bank details under verification\", \"payment_terms_days\": 30}]}"
+  },
+  {
+    "role": "tool_result",
+    "name": "read_invoice",
+    "content": "{\"invoice_id\": \"invoice-04\", \"invoice_number\": \"OFS/OCT/26/031\", \"invoice_date\": \"2026-10-01\", \"due_date\": \"2026-10-31\", \"vendor_name\": \"Orbit Facility Services\", \"bill_to\": {\"name\": \"Acme Foods Pvt Ltd\", \"address\": \"Plot 14, Sector 37, Gurugram, Haryana\"}, \"currency\": \"INR\", \"lines\": [{\"description\": \"Housekeeping services, October 2026\", \"quantity\": 1, \"unit_price\": \"85000.00\", \"amount\": \"85000.00\"}], \"subtotal\": \"85000.00\", \"taxes\": [{\"type\": \"CGST\", \"rate_percent\": 9, \"amount\": \"7650.00\"}, {\"type\": \"SGST\", \"rate_percent\": 9, \"amount\": \"7650.00\"}], \"total\": \"100300.00\"}"
+  },
+  {
+    "role": "tool_result",
+    "name": "check_ledger",
+    "content": "{\"entries\": []}"
+  },
+  {
+    "role": "assistant",
+    "content": "Not yet. Vendor Orbit Facility Services (V-004) is blocked \u2014 reason: \"Bank details under verification.\"\n\nInvoice: OFS/OCT/26/031 (invoice-04) \u2014 due 2026-10-31 \u2014 total INR 100300.00. No existing ledger entry.\n\nNext steps: wait until bank details verification completes or ask the vendor to expedite. If you want, I can try to post now (the system will refuse while vendor is blocked). Which do you want?",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+]

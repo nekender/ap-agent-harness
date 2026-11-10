@@ -1,0 +1,25 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- To post, call post_invoice with the invoice id (e.g. invoice-01). The program checks the vendor and the ledger and asks the clerk to approve; you don't need to ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "what's on invoice-03?"
+  },
+  {
+    "role": "tool_call",
+    "name": "read_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-03\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "read_invoice",
+    "content": "{\"invoice_id\": \"invoice-03\", \"invoice_number\": \"KOS-2026-1187\", \"invoice_date\": \"2026-10-09\", \"due_date\": \"2026-11-08\", \"vendor_name\": \"Kavya Office Supplies\", \"bill_to\": {\"name\": \"Acme Foods Pvt Ltd\", \"address\": \"Plot 14, Sector 37, Gurugram, Haryana\"}, \"currency\": \"INR\", \"lines\": [{\"description\": \"A4 paper, 500-sheet reams\", \"quantity\": 40, \"unit_price\": \"265.00\", \"amount\": \"10600.00\"}, {\"description\": \"Whiteboard markers, box of 10\", \"quantity\": 15, \"unit_price\": \"180.00\", \"amount\": \"2700.00\"}, {\"description\": \"Printer toner cartridge\", \"quantity\": 4, \"unit_price\": \"3450.00\", \"amount\": \"13800.00\"}], \"subtotal\": \"27100.00\", \"taxes\": [{\"type\": \"CGST\", \"rate_percent\": 9, \"amount\": \"2439.00\"}, {\"type\": \"SGST\", \"rate_percent\": 9, \"amount\": \"2439.00\"}], \"total\": \"31978.00\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "Invoice: invoice-03 (KOS-2026-1187)\nVendor: Kavya Office Supplies\nInvoice date: 2026-10-09 \u2014 Due: 2026-11-08\nBill to: Acme Foods Pvt Ltd, Plot 14, Sector 37, Gurugram, Haryana\n\nLines:\n- A4 paper, 500-sheet reams \u2014 qty 40 @ INR 265.00 = INR 10600.00\n- Whiteboard markers, box of 10 \u2014 qty 15 @ INR 180.00 = INR 2700.00\n- Printer toner cartridge \u2014 qty 4 @ INR 3450.00 = INR 13800.00\n\nSubtotal: INR 27100.00\nTaxes: CGST 9% = INR 2439.00; SGST 9% = INR 2439.00\nTotal: INR 31978.00",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+]

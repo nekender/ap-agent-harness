@@ -1,0 +1,24 @@
+[project]
+name = "ap-agent-harness"
+version = "0.1.0"
+description = "A small accounts-payable agent harness: hand-written agent loop, tools, approvals and crash recovery"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=2.0",
+    "openai>=1.50",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-exclude = [".venv", "ledger.py"]  # ledger.py is the provided ledger, used as is
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]

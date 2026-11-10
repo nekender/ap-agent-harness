@@ -1,0 +1,25 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- To post, call post_invoice with the invoice id (e.g. invoice-01). The program checks the vendor and the ledger and asks the clerk to approve; you don't need to ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "post invoice-02"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-02\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"posted\", \"posted\": true, \"entry_id\": \"JE-B967F636\", \"invoice_id\": \"invoice-02\", \"vendor_id\": \"V-002\", \"vendor_name\": \"Bluefin Logistics LLP\", \"invoice_number\": \"BL-88213\", \"invoice_date\": \"2026-10-07\", \"currency\": \"INR\", \"amount\": \"70800.00\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "Posted invoice-02 to ledger entry JE-B967F636 for vendor V-002 (Bluefin Logistics LLP), invoice BL-88213, dated 2026-10-07, amount INR 70,800.00.",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+]

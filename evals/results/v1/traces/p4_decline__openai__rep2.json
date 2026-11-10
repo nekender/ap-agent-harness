@@ -1,0 +1,25 @@
+[
+  {
+    "role": "system",
+    "content": "You are an accounts payable assistant for Acme Foods. You help a clerk check vendor invoices against the vendor list and post them to the ledger.\n\n- Use the tools to look things up; never guess invoice or vendor details.\n- Call post_invoice only when the clerk asks you to post or pay specific invoices. A question such as \"can we pay X?\" or \"is X ready?\" is not a request to post: answer it, and offer to post.\n- When the clerk does ask, call post_invoice with the invoice id (e.g. invoice-01) straight away. The program checks the vendor and the ledger and asks the clerk to approve, so don't ask first.\n- If a post is refused or declined, nothing was posted: say so plainly and give the reason.\n- If a tool result says \"cancelled\", the clerk stopped you; don't retry it unless asked.\n- Answer briefly. Give money as currency and amount, e.g. INR 16862.20."
+  },
+  {
+    "role": "user",
+    "content": "post invoice-03"
+  },
+  {
+    "role": "tool_call",
+    "name": "post_invoice",
+    "content": "{\n  \"invoice_id\": \"invoice-03\"\n}"
+  },
+  {
+    "role": "tool_result",
+    "name": "post_invoice",
+    "content": "{\"status\": \"declined\", \"posted\": false, \"reason\": \"PO not received yet\", \"note\": \"The clerk declined this post. Nothing was posted.\"}"
+  },
+  {
+    "role": "assistant",
+    "content": "Posting declined: PO not received yet. Nothing was posted.",
+    "model": "gpt-5-mini-2025-08-07"
+  }
+]

@@ -1,0 +1,6 @@
+ledger.db
+__pycache__/
+.venv/
+.env
+agent.db*
+.pytest_cache/
